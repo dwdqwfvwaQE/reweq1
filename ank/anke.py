@@ -46,7 +46,7 @@ def set_ank_h(dispatcher: Dispatcher, bot_instance: Bot):
         try:
             await BOT_INSTANCE.send_message(
                 user_id,
-                "<blockquote>✅ Ваша анкета принята!\nОбязательно добавьте бота с админ правами в группу и @username.</blockquote>", parse_mode="HTML"
+                "<blockquote>✅ Ваша анкета принята!\nОбязательно добавьте бота с АДМИН ПРАВАМИ в группу и мой аккаунт @DIPZEX.</blockquote>", parse_mode="HTML"
             )
         except Exception:
             await call.answer("Не удалось отправить сообщение пользователю.", show_alert=True)
@@ -117,4 +117,5 @@ async def process_anketa(msg: types.Message, state: FSMContext):
 
 
 def register_ank(dp):
+
     dp.message.register(process_anketa, GroupStates.waiting_for_anketa)
