@@ -30,7 +30,7 @@ dp = Dispatcher()
 @dp.message(Command("start"))
 async def start_cmd(msg: types.Message):
     save_user(msg.from_user.id, msg.from_user.full_name)
-    text = f"Привет, {msg.from_user.first_name}!\nСкупка групп и тд, заменить на текст"
+    text = f"Привет, {msg.from_user.first_name}!\nПриветсвую тебя в моем боте по продаже старых групп, все инфа идет по кнопкам не забудь вводить реквизиты для получения оплаты"
     await msg.answer(text, reply_markup=main_menu)
 
 
@@ -92,4 +92,5 @@ async def main():
 
 
 if __name__ == "__main__":
+
     asyncio.run(main())
