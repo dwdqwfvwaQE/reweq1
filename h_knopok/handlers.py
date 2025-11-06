@@ -13,7 +13,7 @@ def r_knopki_h(dp, bot, ADM):
     
     register_ank(dp) 
     
-    @dp.message(F.text == "/anket" and F.from_user.id == ADM)
+    @dp.message((F.text == "/anket")  & (F.from_user.id == ADM))
     async def list_ankety(msg: types.Message):
         if msg.chat.type != ChatType.PRIVATE:
             try:
@@ -47,7 +47,7 @@ def r_knopki_h(dp, bot, ADM):
         management_kb = InlineKeyboardMarkup(inline_keyboard=[
             [
                 InlineKeyboardButton(text="Удалить", callback_data=f"anketa_delete_{anketa_id}"),
-                InlineKeyboardButton(text="Закрыть", callback_data=f"anketa_close_{anketa_id}")
+                InlineKeyboardButton(text="Назад", callback_data=f"nazad")
             ]
         ])
 
@@ -171,3 +171,21 @@ def r_knopki_h(dp, bot, ADM):
         await bot.send_document(ADM, FSInputFile(path), caption=f"Новые реквизиты от {msg.from_user.id}")
         await msg.answer("Реквизиты отправлены.", reply_markup=main_menu)
         await state.clear()
+
+    @dp.callback_query(lambda c: c.data == "nazad")
+    async def callback_nazad(callback_query: types.CallbackQuery):
+        msg = callback_query.message
+        anketa_ids = get_a_ids()
+
+        if not anketa_ids:
+            await msg.edit_text("Активных анкет нет.", reply_markup=None)
+            await callback_query.answer()
+            return
+
+        kb = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=str(ank_id), callback_data=f"open_anketa_{ank_id}")]
+            for ank_id in anketa_ids
+        ])
+
+        await msg.edit_text("Активные заявки:", reply_markup=kb, parse_mode="Markdown")
+        await callback_query.answer()
