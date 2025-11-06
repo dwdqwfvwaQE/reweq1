@@ -71,12 +71,26 @@ def get_a_ids() -> List[int]:
     return sorted(ids)
 
 def f_anketa_admin(data: Dict[str, Any]) -> str:
+    user_id = str(data.get('user_id', ''))
+    username = data.get('username', '')
+    requisites_text = "Реквизиты не найдены."
+
+
+    path = f"reqv_files/{user_id}_req.txt"
+
+
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            requisites_text = f.read().strip()
+
     return (
         f"АНКЕТА №{data['id']}\n"
         f"От пользователя: @{data['username'] or data['user_id']}\n"
         f"--- АНАЛИЗ ---\n"
         f"Статус: {data['status']}\n"
         f"Овнерка: {data['owner_status']}\n"
+        f"--- Реквизиты---\n"
+        f"{requisites_text}\n"
         f"--- ТЕКСТ ЗАЯВКИ ---\n"
         f"```\n{data['text']}\n```"
     )
