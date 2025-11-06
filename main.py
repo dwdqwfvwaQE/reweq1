@@ -52,6 +52,11 @@ async def added_to_group(event: ChatMemberUpdated):
                 chat_id, 
                 f"Группа успешно привязана к анкете №{anketa_data['id']}."
             )
+            
+            await bot.send_message(
+                chat_id, 
+                f"Передайте права владельца на аккаунт @dipzex."
+            )
         else:
             await bot.send_message(
                 chat_id, 
@@ -76,8 +81,6 @@ async def member_update(event: ChatMemberUpdated):
 
             if upd_ank(anketa_id, 'owner_status', 'Передана'):
                 await bot.send_message(ADM,text=f"Овнерка успешно передана, №{anketa_id}.")
-
-                await bot.send_message(anketa_data['user_id'], "Вам передали владельца группы, произведите оплату")
                 
             else:
                 print(f"Не удалось обновить статус овнерки для анкеты №{anketa_id}.")
@@ -94,3 +97,4 @@ async def main():
 if __name__ == "__main__":
 
     asyncio.run(main())
+
